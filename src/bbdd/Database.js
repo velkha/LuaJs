@@ -11,31 +11,7 @@ class Database {
      * password: password, // replace with your database password
      * database: 'selectddbb'
      */
-    constructor() {
-        this.connection = mysql.createConnection({
-            host: 'localhost',
-            user: 'root', // replace with your database username
-            password: '', // replace with your database password
-            database: 'luabot' // replace with your database name
-        });
-
-
-        this.connection.connect(error => {
-            if (error) {
-                console.error('Error connecting to the database: ' + error.stack);
-                return;
-            }
-            console.log('Connected to database with ID ' + this.connection.threadId);
-        });
-    }
-    /**
-     * Constructor de la clase Database 
-     * host: host, // replace with your database host
-     * user: user, // replace with your database username
-     * password: password, // replace with your database password
-     * database: 'selectddbb'
-     */
-    constructor(host, user, password, database) {
+    constructor(host = 'localhost', user = 'root', password = '', database = 'luabot') {
         this.connection = mysql.createConnection({
             host: host,
             user: user, // replace with your database username

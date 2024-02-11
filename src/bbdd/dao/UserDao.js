@@ -1,6 +1,6 @@
 const Database = require('../Database');
 const UserDTO = require('../dto/UserDTO');
-
+const User = require('../../models/User');
 class UserDAO {
 
     /**

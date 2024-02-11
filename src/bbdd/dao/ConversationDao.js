@@ -1,6 +1,6 @@
 const Database = require('../Database');
-const ConversationDto = require('./ConversationDto');
-const Conversation = require('./Conversation');
+const ConversationDto = require('../dto/ConversationDto');
+const Conversation = require('../../models/Conversation');
 
 class ConversationDao {
 

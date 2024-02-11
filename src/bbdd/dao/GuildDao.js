@@ -1,9 +1,9 @@
 const Database = require('../Database');
-const GuildDto = require('./GuildDto');
-const Guild = require('../model/Guild');
-const GuildConfig = require('../model/GuildConfig');
-const GuildExtra = require('../model/GuildExtra');
-const PremiumLevel = require('../model/PremiumLevel');
+const GuildDto = require('../dto/GuildDto');
+const Guild = require('../../models/Guild');
+const GuildConfig = require('../../models/GuildConfig');
+const GuildExtra = require('../../models/GuildExtra');
+const PremiumLevel = require('../../models/PremiumLevel');
 
 class GuildDao {
 

@@ -54,3 +54,30 @@ client.on('messageCreate', message => {
 });
 
 client.login(process.env.DISCORD_TOKEN);
+
+/* 
+ * Test de correcto funcionamiento de los Daos
+ */
+/*
+const GuildDao = require('./src/bbdd/dao/GuildDao');
+const UserDao = require('./src/bbdd/dao/UserDao');
+const ConversationDao = require('./src/bbdd/dao/ConversationDao');
+
+const test = async () => {
+	const user = await UserDao.getUserById_discord('321321');
+	console.log(user);
+	const guild = await GuildDao.getFullGuild_discord('1');
+	console.log(guild);
+	
+	const conversations = await ConversationDao.getConversationsForUser(user.id);
+	console.log(conversations);
+	if (Array.isArray(conversations) && conversations.length > 0) {
+		const conversation = await ConversationDao.getConversationWithUsers(conversations[0].uniqueID);
+		console.log(conversation);
+	} else {
+		console.log('No conversations found for the user.');
+	}
+	const fullGuild = await GuildDao.getFullGuild(1);
+	console.log(fullGuild);
+};
+test();*/
