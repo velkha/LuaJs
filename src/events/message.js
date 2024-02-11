@@ -1,7 +1,33 @@
 // events/message.js
-const ErrorHandler = require('../controllers/ErrorHandler');
+const ErrorHandler = require('../handlers/exceptions/ExceptionHandler');
+const initAI = require('../ai-calls/base');
 
 module.exports = (client, message) => {
+    const prefix = process.env.PREFIX;
+
+    if (message.author.bot) return;
+    if (message.content.startsWith(process.env.PREFIX)) {
+        executeCommand(message);
+    }
+    else {
+        try{
+            initAI('session1', message).then(response => {
+                message.channel.send(response);
+            });
+        }
+        catch (error) {
+            ErrorHandler.handle(error, message);
+        }
+        finally {
+            console.log('AI call completed');
+        }
+    }
+};
+
+/**
+ * Execute the command that the user has requested
+ */
+const executeCommand = (message) => {
     const prefix = process.env.PREFIX;
 
     if (!message.content.startsWith(prefix) || message.author.bot) return;
@@ -16,4 +42,4 @@ module.exports = (client, message) => {
     } catch (error) {
         ErrorHandler.handle(error, message);
     }
-};
+}
