@@ -1,3 +1,4 @@
 .env
 # exclude everything
 node_modules/*
+src/commands/utility/todo.txt

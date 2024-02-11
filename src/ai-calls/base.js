@@ -3,6 +3,15 @@ const OpenAI = require('openai');
 // Create a static hashmap to store OpenAI instances
 const openaiInstances = new Map();
 
+
+//TODO: gestion por parametro de: 
+//messages -> system custom,
+//Crear el controlador de todo esto 
+//instance a la que se llama, si es GPT asignar api key
+//comprobacion de n° tokens usados
+//comprobacion de n° tokens restantes pre mensaje
+//si usa gpt-4 y no le quedan tokens uso de gpt-3
+//
 async function initAI(sessionId, message) {
     let userMessage = message.content;
     // Check if an OpenAI instance already exists for the session ID
