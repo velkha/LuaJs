@@ -6,7 +6,7 @@ class ConversationDao {
 
     /**
      * Devuelve todas las conversaciones
-     * @returns 
+     * @returns {Promise<Conversation[]>}
      */
     static async getAllConversations() {
         const db = new Database();
@@ -23,8 +23,8 @@ class ConversationDao {
 
     /**
      * Devuelve una conversacion por su UniqueID
-     * @param {*} uniqueId 
-     * @returns 
+     * @param {int} uniqueId 
+     * @returns {Promise<Conversation>}
      */
     static async getConversationById(uniqueId) {
         const db = new Database();
@@ -47,7 +47,7 @@ class ConversationDao {
     /**
      * Devuelve todas las conversaciones en las que esta involucrado un usuario
      * @param {string} userDiscordId 
-     * @returns 
+     * @returns {Promise<Conversation[]>}
      * 
      * Usage:
         ConversationDao.getConversationsForUser(userId)
@@ -80,8 +80,8 @@ class ConversationDao {
     
     /**
      * Devuelve una conversacion con todos los usuarios involucrados incluidos en el campo users del ConversationDto
-     * @param {*} conversationId 
-     * @returns 
+     * @param {int} conversationId 
+     * @returns {Promise<Conversation>}
      */
     static async getConversationWithUsers(conversationId) {
         const db = new Database();

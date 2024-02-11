@@ -3,6 +3,10 @@ const UserDTO = require('../dto/UserDTO');
 
 class UserDAO {
 
+    /**
+     * Devuelve todos los usuarios de la base de datos
+     * @returns {Promise<UserDTO[]>} Promise que resuelve con un array de UserDTOs
+     */
     static async getAllUsers() {
         const db = new Database();
         try {
@@ -16,6 +20,11 @@ class UserDAO {
         }
     }
 
+    /**
+     * Devuelve un usuario por su identificador único
+     * @param {int} uniqueId 
+     * @returns {Promise<UserDTO>} Promise que resuelve con un UserDTO o null si no se encuentra el usuario
+     */
     static async getUserById(uniqueId) {
         const db = new Database();
         try {
@@ -33,7 +42,12 @@ class UserDAO {
         }
     }
 
-    static async getUserById(userDiscordId) {
+    /**
+     * Devuelve un usuario por su identificador de Discord
+     * @param {string} userDiscordId 
+     * @returns {Promise<UserDTO>} Promise que resuelve con un UserDTO o null si no se encuentra el usuario
+     */
+    static async getUserById_discord(userDiscordId) {
         const db = new Database();
         try {
             const results = await db.query('SELECT * FROM Users WHERE id = ?', [userDiscordId]);
@@ -50,6 +64,11 @@ class UserDAO {
         }
     }
 
+    /**
+     * Añade un nuevo usuario a la base de datos
+     * @param {*} userDTO 
+     * @returns {Promise<UserDTO>} Promise que resuelve con el UserDTO del usuario añadido
+     */
     static async addUser(userDTO) {
         const db = new Database();
         try {
@@ -68,7 +87,7 @@ class UserDAO {
         }
     }
 
-
+    
     /**
      * Devuelve todos los usuarios involucrados en una conversacion concreta
      * @param {*} conversationId 

@@ -1,14 +1,14 @@
 class Conversation {
     /**
-     * 
-     * @param {*} uniqueID 
-     * @param {*} id 
-     * @param {*} sessionId 
-     * @param {*} contexto 
+     * Constructor de la clase Conversation 
+     * @param {*} uniqueID id unico nuestro
+     * @param {*} id id de la conversacion
+     * @param {*} sessionId id de la sesion
+     * @param {*} contexto JSON object representing the context
      * @param {*} fecha_creacion 
      * @param {*} fecha_modificacion 
-     * @param {*} chatLog 
-     * @param {*} tokens_usados 
+     * @param {*} chatLog JSON object representing the chat log
+     * @param {*} tokens_usados Number of tokens used in the conversation
      */
     constructor(uniqueID, id, sessionId, contexto, fecha_creacion, fecha_modificacion, chatLog, tokens_usados) {
         this.uniqueID = uniqueID; // Primary Key, auto-incremented
