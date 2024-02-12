@@ -9,7 +9,7 @@ class GuildExtra {
      * @param {*} memberCount numero de miembros de la guild
      * @param {*} maximumMembers numero maximo de miembros
      * @param {*} afkTimeout tiempo de inactividad antes de mover al canal de afk
-     * @param {*} createdAt fecha de creacion de la guild
+     * @param {*} creationAt fecha de creacion de la guild
      */
     constructor(uniqueID, guildId, ownerId, verified, partnered, memberCount, maximumMembers, afkTimeout, createdAt) {
         this.uniqueID = uniqueID;
@@ -20,7 +20,7 @@ class GuildExtra {
         this.memberCount = memberCount;
         this.maximumMembers = maximumMembers;
         this.afkTimeout = afkTimeout;
-        this.createdAt = createdAt;
+        this.creationAt = createdAt;
     }
 }
 module.exports = GuildExtra;

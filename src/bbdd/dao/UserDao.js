@@ -1,122 +1,89 @@
-const Database = require('../Database');
+const {User} = require('../models/User'); // Sequelize model
 const UserDTO = require('../dto/UserDTO');
-const User = require('../../models/User');
-class UserDAO {
+const ConversationUser = require('../models/ConversationUser');
 
+class UserDAO {
     /**
-     * Devuelve todos los usuarios de la base de datos
-     * @returns {Promise<UserDTO[]>} Promise que resuelve con un array de UserDTOs
+     * Get all Users from the database
+     * @returns {Promise<UserDTO[]>} Promise resolving with an array of UserDTOs
      */
     static async getAllUsers() {
-        const db = new Database();
         try {
-            const results = await db.query('SELECT * FROM Users');
-            return results.map(row => new UserDTO(row.UniqueID, row.id, row.username, row.globalName, row.bot));
+            const users = await User.findAll();
+            return users.map(user => new UserDTO(user.UniqueID, user.id, user.username, user.globalName, user.bot));
         } catch (error) {
             console.error('Error fetching all users:', error);
             throw error;
-        } finally {
-            await db.close();
         }
     }
 
     /**
-     * Devuelve un usuario por su identificador único
+     * Get a User by their unique ID
      * @param {int} uniqueId 
-     * @returns {Promise<UserDTO>} Promise que resuelve con un UserDTO o null si no se encuentra el usuario
+     * @returns {Promise<UserDTO>} Promise resolving with a UserDTO or null if not found
      */
     static async getUserById(uniqueId) {
-        const db = new Database();
         try {
-            const results = await db.query('SELECT * FROM Users WHERE UniqueID = ?', [uniqueId]);
-            if (results.length) {
-                const row = results[0];
-                return new UserDTO(row.UniqueID, row.id, row.username, row.globalName, row.bot);
-            }
-            return null;
+            const user = await User.findOne({ where: { UniqueID: uniqueId } });
+            return user ? new UserDTO(user.UniqueID, user.id, user.username, user.globalName, user.bot) : null;
         } catch (error) {
             console.error(`Error fetching user with UniqueID ${uniqueId}:`, error);
             throw error;
-        } finally {
-            await db.close();
         }
     }
 
     /**
-     * Devuelve un usuario por su identificador de Discord
+     * Get a User by their Discord ID
      * @param {string} userDiscordId 
-     * @returns {Promise<UserDTO>} Promise que resuelve con un UserDTO o null si no se encuentra el usuario
+     * @returns {Promise<UserDTO>} Promise resolving with a UserDTO or null if not found
      */
     static async getUserById_discord(userDiscordId) {
-        const db = new Database();
         try {
-            const results = await db.query('SELECT * FROM Users WHERE id = ?', [userDiscordId]);
-            if (results.length) {
-                const row = results[0];
-                return new UserDTO(row.UniqueID, row.id, row.username, row.globalName, row.bot);
-            }
-            return null;
+            const user = await User.findOne({ where: { id: userDiscordId } });
+            return user ? new UserDTO(user.UniqueID, user.id, user.username, user.globalName, user.bot) : null;
         } catch (error) {
-            console.error(`Error fetching user with UniqueID ${uniqueId}:`, error);
+            console.error(`Error fetching user with Discord ID ${userDiscordId}:`, error);
             throw error;
-        } finally {
-            await db.close();
         }
     }
 
     /**
-     * Añade un nuevo usuario a la base de datos
-     * @param {*} userDTO 
-     * @returns {Promise<UserDTO>} Promise que resuelve con el UserDTO del usuario añadido
+     * Add a new User to the database
+     * @param {UserDTO} userDTO 
+     * @returns {Promise<UserDTO>} Promise resolving with the UserDTO of the added user
      */
     static async addUser(userDTO) {
-        const db = new Database();
         try {
-            const result = await db.query(
-                'INSERT INTO Users (id, username, globalName, bot) VALUES (?, ?, ?, ?)',
-                [userDTO.id, userDTO.username, userDTO.globalName, userDTO.bot]
-            );
-            // Assign the insertId to the uniqueID property of the UserDTO
-            userDTO.uniqueID = result.insertId;
-            return userDTO;
+            const newUser = await User.create({
+                id: userDTO.id,
+                username: userDTO.username,
+                globalName: userDTO.globalName,
+                bot: userDTO.bot
+            });
+            return new UserDTO(newUser.UniqueID, newUser.id, newUser.username, newUser.globalName, newUser.bot);
         } catch (error) {
             console.error('Error adding a new user:', error);
             throw error;
-        } finally {
-            await db.close();
         }
     }
 
-    
     /**
-     * Devuelve todos los usuarios involucrados en una conversacion concreta
+     * Get all Users involved in a specific conversation
      * @param {*} conversationId 
      * @returns 
-     * Usage
-        ConversationDao.getUsersForConversation(conversationId)
-            .then(users => {
-                // Process users
-            })
-            .catch(error => {
-                // Handle error
-            });
      */
     static async getUsersForConversation(conversationId) {
-        const db = new Database();
         try {
-            const query = `
-                SELECT u.* 
-                FROM Users u
-                INNER JOIN conversation_users cu ON u.UniqueID = cu.idUser
-                WHERE cu.idConversation = ?;
-            `;
-            const results = await db.query(query, [conversationId]);
-            return results.map(row => new User(row.UniqueID, row.id, row.username, row.globalName, row.bot));
+            const users = await User.findAll({
+                include: [{
+                    model: ConversationUser,
+                    where: { idConversation: conversationId }
+                }]
+            });
+            return users.map(user => new UserDTO(user.UniqueID, user.id, user.username, user.globalName, user.bot));
         } catch (error) {
             console.error('Error fetching users for conversation:', error);
             throw error;
-        } finally {
-            await db.close();
         }
     }
 }
