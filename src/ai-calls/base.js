@@ -12,7 +12,8 @@ const openaiInstances = new Map();
 //comprobacion de n° tokens restantes pre mensaje
 //si usa gpt-4 y no le quedan tokens uso de gpt-3
 //
-async function initAI(sessionId, message) {
+
+async function initAI(sessionId, message, systemMessage) {
     let userMessage = message.content;
     // Check if an OpenAI instance already exists for the session ID
     let openai = openaiInstances.get(sessionId);
@@ -26,7 +27,7 @@ async function initAI(sessionId, message) {
     const response = await openai.chat.completions.create({
         model: "local-model-llama",
         messages: [
-            { "role": "system", "content": "Return short answers to the user, a maximum of 2 sentences. If the user says goodbye, the conversation should end." },
+            { "role": "system", "content": systemMessage },
             { "role": "user", "content": userMessage }
         ],
         temperature: 0.7,
