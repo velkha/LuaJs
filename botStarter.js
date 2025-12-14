@@ -1,3 +1,7 @@
+// Configurar FFmpeg ANTES de cargar Discord.js para que prism-media lo detecte
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+process.env.FFMPEG_PATH = ffmpegPath;
+
 const {Collection, GatewayIntentBits, Client, Message} = require('discord.js');
 const path = require('node:path');
 const fs = require('fs');
@@ -78,6 +82,7 @@ const test = async () => {
 	if (Array.isArray(conversations) && conversations.length > 0) {
 		const conversation = await ConversationDao.getConversationWithUsers(conversations[0].uniqueID);
 		console.log(conversation);
+		
 	} else {
 		console.log('No conversations found for the user.');
 	}

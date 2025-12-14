@@ -1,0 +1,9 @@
+Comandos faltantes:
+- Comprobacion de tokens personales
+- Comprobacion de tokens servidor
+- Nuevo chat
+- Start chatting (a partir de aqui hasta que meta stop estara hablando con el bot)
+- Stop chatting (para de hablar con el bot)
+- Change AI model (cambiar persona)
+- Cambiar propiedades custom
+- Comprobar version de sub
